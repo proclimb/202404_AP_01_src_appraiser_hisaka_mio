@@ -216,7 +216,7 @@ function subArticleEdit()
 				<th>除外</th>
 				<?php if ($articleNo) { ?>
 					<td>
-						<input type="checkbox" name="del" value="1" checked="checked" /> 非除外
+						<input type="checkbox" name="del" value="1" <?php if ($del == '1') print ' checked="checked"' ?> /> 非除外
 						<input type="checkbox" name="del" value="0" <?php if ($del == '0') print ' checked="checked"' ?> /> 除外
 					</td>
 				<?php } else { ?>
