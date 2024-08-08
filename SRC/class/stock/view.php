@@ -4,7 +4,9 @@
 //
 function subStockView($param)
 {
+	$conn = fnDbConnect();
 ?>
+
 	<script>
 		var cal1 = new JKL.Calendar("cal1", "form", "sInsDTFrom");
 		var cal2 = new JKL.Calendar("cal2", "form", "sInsDTTo");
@@ -54,7 +56,24 @@ function subStockView($param)
 					<th>担当</th>
 					<td><input type="text" name="sCharge" value="<?php print $param["sCharge"] ?>" size="30" /></td>
 					<th>業者名</th>
-					<td><input type="text" name="sAgent" value="<?php print $param["sAgent"] ?>" size="30" /></td>
+					<!-- <td><input type="text" name="sAgent" value="<?php print $param["sAgent"] ?>" size="30" /></td> -->
+					<td><select name="sAgent" width="30">
+							<option value=""></option>
+							<?php
+							$sql = fnSqlStockTrade();
+							$res = mysqli_query($conn, $sql);
+							// $i = 0;
+							while ($row = mysqli_fetch_array($res)) {
+								$tradename = htmlspecialchars($row[0]);
+							?>
+								<option value="<?php print $tradename; ?>" <?php if ($tradename == $param["sAgent"]) {
+																				print 'selected="selected"';
+																			} ?>><?php print $tradename ?></option>
+							<?php }
+							?>
+						</select>
+					</td>
+
 				</tr>
 				<tr>
 					<th>ランク</th>
@@ -205,7 +224,7 @@ function subStockView($param)
 //
 function subStockEditView($param)
 {
-
+	$conn = fnDbConnect();
 ?>
 	<script type="text/javascript" src="./js/stock.js"></script>
 	<script type="text/javascript" src="./js/jquery-1.4.min.js"></script>
@@ -319,7 +338,21 @@ function subStockEditView($param)
 			</tr>
 			<tr>
 				<th>業者名</th>
-				<td><input type="text" name="agent" value="<?php print $param["agent"] ?>" /></td>
+				<td><select name="agent" width="30">
+						<option value=""></option>
+						<?php
+						$sql = fnSqlStockTrade();
+						$res = mysqli_query($conn, $sql);
+						while ($row = mysqli_fetch_array($res)) {
+							$tradename = htmlspecialchars($row[0]);
+						?>
+							<option value="<?php print $tradename; ?>" <?php if ($tradename == $param["agent"]) {
+																			print 'selected="selected"';
+																		} ?>><?php print $tradename ?></option>
+						<?php }
+						?>
+					</select>
+				</td>
 			</tr>
 			<tr>
 				<th>店舗名</th>

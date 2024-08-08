@@ -161,7 +161,13 @@ function fnSqlStockInsert($param)
     $sql .= ")VALUES(";
     $sql .= "'" . $param["stockNo"] . "','" . $param["charge"] . "','" . $param["rank"] . "','" . $param["article"] . "','"
         . $param["articleFuri"] . "','" . $param["room"] . "','" . $param["area"] . "','" . $param["station"] . "','"
-        . $param["distance"] . "','" . $param["agent"] . "','" . $param["store"] . "','" . $param["cover"] . "','"
+        . $param["distance"] . "',";
+    if ($param["agent"] == "") {
+        $sql .= "NULL,'";
+    } else {
+        $sql .= "'" . $param["agent"] . "','";
+    }
+    $sql .= $param["store"] . "','" . $param["cover"] . "','"
         . $param["visitDT"] . "','" . $param["deskPrice"] . "','" . $param["vendorPrice"] . "','" . $param["note"] . "','"
         . $param["how"] . "',CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,'" . $param["del"] . "')";
 
@@ -214,6 +220,16 @@ function fnSqlStockExclusion()
     $sql = "UPDATE TBLSTOCK";
     $sql .= " SET DEL = 0";
     $sql .= " WHERE UPDT < NOW() - INTERVAL 1 MONTH";
+
+    return ($sql);
+}
+
+// 業者
+//
+function fnSqlStockTrade()
+{
+    $sql  = "SELECT DISTINCT NAME";
+    $sql .= " FROM TBLTRADE";
 
     return ($sql);
 }
